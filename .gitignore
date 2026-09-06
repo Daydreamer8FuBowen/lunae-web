@@ -1,0 +1,24 @@
+node_modules/
+dist/
+.vite/
+*.local
+*.tsbuildinfo
+
+# Environment and local secrets
+.env
+.env.*
+!.env.example
+
+# Test and tooling output
+coverage/
+*.log
+
+# Internal planning documents (kept locally, not committed)
+docs/superpowers/
+
+# Editor and operating-system files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json

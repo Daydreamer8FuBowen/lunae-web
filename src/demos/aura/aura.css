@@ -1,0 +1,35 @@
+@import url('https://db.onlinewebfonts.com/c/0e6de1ec911a2e267ff136bbdd384a44?family=Helvetica+Neue+Light');
+
+.demo-route > main {
+  font-family: 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-synthesis: none;
+}
+
+@scope (.demo-route > main) {
+  /* Tailwind 3 responsive text sizes reset the base line-height. */
+  @media (min-width: 640px) { #top h1 { line-height: 1; } }
+  @media (min-width: 768px) {
+    #philosophy h2, #membership h2 { line-height: 1; }
+  }
+  ::selection { background: rgba(168, 85, 247, .4); color: #fff; }
+
+  .liquid-glass {
+    background: linear-gradient(165deg, rgba(255, 255, 255, .005) 0%, rgba(255, 255, 255, .002) 40%, rgba(255, 255, 255, .001) 100%);
+    backdrop-filter: blur(18px) saturate(1.4) brightness(1.05);
+    -webkit-backdrop-filter: blur(18px) saturate(1.4) brightness(1.05);
+    border: none;
+    box-shadow: inset 0 0 12px rgba(255, 255, 255, .15);
+    position: relative;
+    overflow: hidden;
+  }
+  .liquid-glass::before {
+    content: ''; position: absolute; inset: 0; border-radius: inherit; padding: 1.5px;
+    background: linear-gradient(180deg, rgba(255,255,255,.08) 0%, rgba(255,255,255,.025) 15%, rgba(255,255,255,.005) 40%, rgba(255,255,255,.005) 60%, rgba(255,255,255,.025) 85%, rgba(255,255,255,.06) 100%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none;
+  }
+  .liquid-glass::after {
+    content: ''; position: absolute; inset: 0; border-radius: inherit;
+    background: radial-gradient(ellipse at 50% 0%, rgba(255,255,255,.01) 0%, transparent 50%), radial-gradient(ellipse at center, transparent 55%, rgba(255,255,255,.005) 80%, rgba(255,255,255,.01) 100%);
+    pointer-events: none;
+  }
+}

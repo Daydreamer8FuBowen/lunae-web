@@ -1,0 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500&display=swap');
+
+.archive-root { font-family: 'Inter Tight', sans-serif; color: #fff; overflow-x: clip; }
+@scope (.archive-root) {
+  .bp-card { will-change: transform; transform: scale(0); }
+  .main-canvas { position: fixed; inset: 0; z-index: 0; overflow: hidden; opacity: 0; transition: opacity .3s ease; }
+  .main-canvas.ready { opacity: 1; }
+  @media (max-width: 1023px) { .main-canvas { top: 220px; height: calc(100vh - 220px); } }
+  @media (prefers-reduced-motion: reduce) { .bp-card { will-change: auto; } }
+}
+@media (min-width: 1024px) { .archive-root { cursor: none; } }
