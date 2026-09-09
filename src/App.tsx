@@ -9,6 +9,7 @@ import './styles/globals.css'
 
 const AuraDemo = lazy(() => import('./demos/aura/AuraDemo'))
 const PrmptDemo = lazy(() => import('./demos/prmpt/PrmptDemo'))
+const MotionLabDemo = lazy(() => import('./demos/motion-lab/MotionLabDemo'))
 
 function SiteHeader({ compact = false }: { compact?: boolean }) {
   const location = useLocation()
@@ -22,10 +23,11 @@ function SiteHeader({ compact = false }: { compact?: boolean }) {
     <nav className="site-nav" aria-label="主导航">
       <NavLink className={({ isActive }) => isActive ? 'is-active' : ''} to={routePaths.tools}>工具箱</NavLink>
       <NavLink className={({ isActive }) => isActive ? 'is-active' : ''} to={routePaths.showcase}>效果展示</NavLink>
+      <NavLink className={({ isActive }) => isActive ? 'is-active' : ''} to={routePaths.motionLabDemo}>动效实验</NavLink>
       {!isHome && <Link className="site-nav__home" to={routePaths.home}>首页</Link>}
     </nav>
     <button className="mobile-menu" type="button" aria-label="打开导航" aria-expanded={menuOpen} onClick={() => setMenuOpen((open) => !open)}><Menu size={18} /></button>
-    {menuOpen && <div className="mobile-nav" role="dialog" aria-label="移动端导航"><Link to={routePaths.tools} onClick={() => setMenuOpen(false)}>工具箱</Link><Link to={routePaths.showcase} onClick={() => setMenuOpen(false)}>效果展示</Link>{!isHome && <Link to={routePaths.home} onClick={() => setMenuOpen(false)}>首页</Link>}</div>}
+    {menuOpen && <div className="mobile-nav" role="dialog" aria-label="移动端导航"><Link to={routePaths.tools} onClick={() => setMenuOpen(false)}>工具箱</Link><Link to={routePaths.showcase} onClick={() => setMenuOpen(false)}>效果展示</Link><Link to={routePaths.motionLabDemo} onClick={() => setMenuOpen(false)}>动效实验</Link>{!isHome && <Link to={routePaths.home} onClick={() => setMenuOpen(false)}>首页</Link>}</div>}
   </header>
 }
 
@@ -90,6 +92,7 @@ function AppRoutes() {
     <Route path="/showcase/:slug" element={<ShowcaseDetailPage />} />
     <Route path={routePaths.auraDemo} element={<DemoFrame title="AURA Wellness"><Suspense fallback={<RouteFallback />}><AuraDemo /></Suspense></DemoFrame>} />
     <Route path={routePaths.prmptDemo} element={<DemoFrame title="prmpt Archive"><Suspense fallback={<RouteFallback />}><PrmptDemo /></Suspense></DemoFrame>} />
+    <Route path={routePaths.motionLabDemo} element={<DemoFrame title="Motion Lab"><Suspense fallback={<RouteFallback />}><MotionLabDemo /></Suspense></DemoFrame>} />
     <Route path="*" element={<Navigate to={routePaths.home} replace />} />
   </Routes>
 }

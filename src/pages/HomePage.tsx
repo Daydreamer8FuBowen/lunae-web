@@ -4,6 +4,7 @@ import { ArrowDown, ArrowUpRight, Asterisk } from 'lucide-react'
 import { projectEntries, routePaths } from '../app/routes'
 import utilityImage from './assets/utility-window.png'
 import selectedWorksImage from './assets/selected-works-window.png'
+import motionLabImage from './assets/motion-lab-bg.png'
 import './home.css'
 
 function movePreview(event: PointerEvent<HTMLAnchorElement>) {
@@ -24,7 +25,7 @@ export default function HomePage() {
   return <div className="index-page">
     <header className="index-header">
       <Link to={routePaths.home} className="index-logo" aria-label="Lunae 首页"><Asterisk size={26} strokeWidth={1.6} /><span>Lunae</span></Link>
-      <nav aria-label="主导航"><Link to={routePaths.tools}>工具箱 <ArrowUpRight size={13} /></Link><Link to={routePaths.showcase}>效果展示 <ArrowUpRight size={13} /></Link></nav>
+      <nav aria-label="主导航"><Link to={routePaths.tools}>工具箱 <ArrowUpRight size={13} /></Link><Link to={routePaths.showcase}>效果展示 <ArrowUpRight size={13} /></Link><Link to={routePaths.motionLabDemo}>动效实验 <ArrowUpRight size={13} /></Link></nav>
     </header>
     <main className="index-main">
       <section className="index-intro" aria-labelledby="index-title">
@@ -45,6 +46,14 @@ export default function HomePage() {
             <span className="index-open-icon" aria-hidden="true"><ArrowUpRight size={26} /></span>
           </div>
           <div className="index-entry-caption"><div><h2>效果展示</h2><span>让想法，有形。</span></div><span className="index-count">{String(works.length).padStart(2, '0')} WORKS<ArrowUpRight size={21} /></span></div>
+        </Link>
+        <Link to={routePaths.motionLabDemo} className="index-entry index-entry--motion" onPointerMove={movePreview} onPointerLeave={resetPreview}>
+          <div className="index-entry-visual index-motion-visual" aria-hidden="true">
+            <img src={motionLabImage} alt="" />
+            <span className="index-motion-overlay"><strong>Motion Lab</strong><small>SCROLL · STICKY · PARALLAX</small></span>
+            <span className="index-open-icon"><ArrowUpRight size={26} /></span>
+          </div>
+          <div className="index-entry-caption"><div><h2>动效实验</h2><span>拆解滚动，重组节奏。</span></div><span className="index-count">05 DEMOS<ArrowUpRight size={21} /></span></div>
         </Link>
       </section>
     </main>

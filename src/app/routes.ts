@@ -20,6 +20,7 @@ export const routePaths = {
   prmptDetail: '/showcase/prmpt',
   auraDemo: '/demos/aura',
   prmptDemo: '/demos/prmpt',
+  motionLabDemo: '/demos/motion-lab',
 } as const
 
 export const legacyRedirects: Record<string, string> = {

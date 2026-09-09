@@ -10,6 +10,7 @@ describe('project routes', () => {
       showcase: '/showcase',
       auraDemo: '/demos/aura',
       prmptDemo: '/demos/prmpt',
+      motionLabDemo: '/demos/motion-lab',
     })
   })
 
