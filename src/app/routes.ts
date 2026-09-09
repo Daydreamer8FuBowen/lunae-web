@@ -21,6 +21,7 @@ export const routePaths = {
   auraDemo: '/demos/aura',
   prmptDemo: '/demos/prmpt',
   motionLabDemo: '/demos/motion-lab',
+  demo3: '/demos/demo3',
 } as const
 
 export const legacyRedirects: Record<string, string> = {

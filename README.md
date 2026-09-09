@@ -32,6 +32,8 @@ npm run preview # 预览生产构建
 
 ## 目录结构
 
+`/demos/demo3` 是 Jack 3D Creator 入口，可从首页「3D 创作」进入。React 路由通过 iframe 加载 `public/demos/demo3/` 中的独立页面，保留原有样式与动画运行环境。肖像、装饰图片及 Kanit 字体仍使用原项目外链，需要网络连接。
+
 ```text
 src/
 ├─ app/                 # 路由与项目入口配置
