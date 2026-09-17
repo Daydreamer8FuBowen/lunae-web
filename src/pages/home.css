@@ -1,11 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600&display=swap');
 
-.closer-page { height: 100svh; min-height: 660px; background: #fff; color: #212121; }
+.closer-page { height: 100svh; background: #fff; color: #212121; }
 .closer-page *, .closer-page *::before, .closer-page *::after { box-sizing: border-box; }
-.closer-video { z-index: -1; background: #fff; }
+.closer-video { z-index: -1; background: #fff; object-position: center bottom; }
 .closer-header { top: 20px; left: 50%; width: calc(100% - 48px); max-width: 1110px; transform: translateX(-50%); }
 .closer-logo { gap: 6px; font: 400 26px/46px 'Instrument Serif', Georgia, serif; }
-.closer-content { left: 50%; top: calc(50% - 136.5px); max-width: 984px; padding: 0 24px; transform: translate(-50%, -50%); }
+.closer-content { left: 50%; top: max(240px, calc(50% - 160px)); max-width: 984px; padding: 0 24px; transform: translate(-50%, -50%); }
 .closer-content h1 { max-width: 722px; margin: 0; font: 400 48px/1.1 'Instrument Serif', 'SF Pro Display', Georgia, serif; letter-spacing: 0; opacity: .9; }
 .closer-accent { display: inline-block; width: 4.2857em; height: 1em; vertical-align: -.13em; }
 .closer-accent svg { display: block; width: 100%; height: 1.14286em; overflow: visible; }
@@ -22,9 +22,14 @@
   .closer-cta { margin-top: 48px; }
 }
 @media (max-width: 767px) {
-  .closer-content { top: max(280px, calc(50% - 100px)); }
+  .closer-content { top: max(260px, calc(50% - 124px)); }
 }
 @media (max-height: 700px) and (min-width: 768px) {
-  .closer-page { min-height: 600px; }
-  .closer-content { top: 290px; }
+  .closer-content { top: 260px; }
+}
+@media (max-height: 650px) {
+  .closer-content { top: 86px; transform: translateX(-50%); }
+  .closer-content h1 { font-size: 40px; line-height: 1.05; }
+  .closer-description { margin-top: 16px; font-size: 16px; }
+  .closer-cta { margin-top: 24px; height: 48px; }
 }
