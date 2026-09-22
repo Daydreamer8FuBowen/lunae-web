@@ -22,6 +22,7 @@ export const routePaths = {
   prmptDemo: '/demos/prmpt',
   motionLabDemo: '/demos/motion-lab',
   demo3: '/demos/demo3',
+  digitalArchiveDemo: '/demos/digital-archive',
 } as const
 
 export const legacyRedirects: Record<string, string> = {

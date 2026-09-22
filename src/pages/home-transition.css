@@ -1,0 +1,32 @@
+.home-transition.is-entering { position: fixed; inset: 0; overflow: hidden; isolation: isolate; background: var(--canvas); }
+.home-transition.is-entering .closer-video {
+  transform-origin: 52% 38%;
+  will-change: transform, opacity;
+  animation: home-portal-zoom 1.4s cubic-bezier(.45, 0, .55, 1) both, home-portal-fade 1.4s linear both;
+}
+.home-transition.is-entering .closer-header,
+.home-transition.is-entering .closer-content,
+.home-transition.is-entering .closer-video-toggle {
+  pointer-events: none;
+  animation: home-copy-exit .3s ease-out both;
+}
+.home-tools-reveal {
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  overflow: hidden;
+  background: var(--canvas);
+  will-change: transform;
+  animation: home-tools-enter 1.4s cubic-bezier(.22, 1, .36, 1) both;
+}
+@keyframes home-portal-zoom { from { transform: scale(1); } to { transform: scale(7.5); } }
+@keyframes home-portal-fade { 0%, 66% { opacity: 1; } 88%, 100% { opacity: 0; } }
+@keyframes home-copy-exit { to { opacity: 0; } }
+@keyframes home-tools-enter { 0%, 35% { transform: translateY(100%); } 100% { transform: translateY(0); } }
+@media (prefers-reduced-motion: reduce) {
+  .home-transition.is-entering .closer-video,
+  .home-transition.is-entering .closer-header,
+  .home-transition.is-entering .closer-content,
+  .home-transition.is-entering .closer-video-toggle,
+  .home-tools-reveal { animation: none; }
+}

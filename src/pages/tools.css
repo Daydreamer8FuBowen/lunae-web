@@ -1,0 +1,104 @@
+.tools-list-page {
+  min-height: 100svh;
+  display: grid;
+  align-items: center;
+  overflow: hidden;
+  padding: 40px 0 72px;
+  color: var(--ink);
+  background-color: #fafbfa;
+  background-image: radial-gradient(circle, #cfd5d740 1.5px, transparent 2.5px);
+  background-size: 24px 24px;
+}
+.tools-carousel {
+  --card-width: 300px;
+  --card-height: 420px;
+  --step: 295px;
+  --drop: 52px;
+  --tilt: 8deg;
+  --bump: 30px;
+  width: 100%;
+  min-width: 0;
+  position: relative;
+}
+.tools-arc-stage {
+  position: relative;
+  width: 100%;
+  height: 560px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.tools-arc-card {
+  position: absolute;
+  top: 20px;
+  left: calc(50% - var(--card-width) / 2);
+  width: var(--card-width);
+  height: var(--card-height);
+  border-radius: 28px;
+  border: 1px solid #d7e1e5;
+  background: linear-gradient(135deg, #e9eff0b0, #f1f5f580);
+  box-shadow: inset 0 1px 1px #ffffffb3;
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  transform: translateX(calc(var(--position) * var(--step))) translateY(calc(var(--distance) * var(--drop) + var(--center) * var(--bump))) rotate(calc(var(--position) * var(--tilt)));
+  transition: transform .55s cubic-bezier(.22, 1, .36, 1), opacity .55s ease, background-color .55s ease;
+  pointer-events: none;
+}
+.tools-arc-card.is-active {
+  background: rgb(247, 251, 255);
+  border-color: #ffffff99;
+  box-shadow: 0 8px 24px #00000014, 0 0 50px #ffffff8c, 0 0 90px #ffffff59;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  pointer-events: auto;
+}
+.tools-arc-card a {
+  display: flex;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  justify-content: flex-start;
+  align-items: flex-end;
+  padding: 32px;
+  border-radius: inherit;
+  text-align: left;
+  color: #2c2420;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: -.01em;
+}
+.tools-arc-card a { overflow: hidden; isolation: isolate; }
+.tools-card-art { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; }
+.tools-arc-card a::after { content: ''; position: absolute; inset: 55% 0 0; z-index: -1; background: linear-gradient(transparent, #f5f8f8 82%); pointer-events: none; }
+.tools-arc-card a > span { padding-right: 22px; }
+.tools-card-arrow { position: absolute; bottom: 30px; right: 30px; opacity: .45; transition: opacity .2s; }
+.tools-arc-card a:hover .tools-card-arrow { opacity: 1; }
+.tools-carousel-controls { position: relative; z-index: 110; display: flex; justify-content: center; gap: 10px; margin-top: 20px; }
+.tools-carousel-controls button {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border: 1px solid #dce3e6;
+  border-radius: 50%;
+  color: #55616a;
+  background: #ffffff66;
+  cursor: pointer;
+  transition: background-color .2s ease, transform .2s ease;
+}
+.tools-carousel-controls .tools-carousel-next { background: #ffffffe6; color: #2c2420; box-shadow: 0 6px 18px #0000001f; }
+.tools-carousel-controls button:hover { background: #fff; transform: translateY(-2px); }
+.tools-arc-card a:focus-visible, .tools-carousel-controls button:focus-visible { outline: 2px solid var(--blue); outline-offset: 5px; }
+@media (max-width: 767px) {
+  .tools-list-page { padding: 24px 0 56px; }
+  .tools-carousel { --card-width: 230px; --card-height: 320px; --step: 170px; --drop: 34px; --tilt: 7deg; --bump: 22px; }
+  .tools-arc-stage { height: 460px; }
+  .tools-arc-card { border-radius: 22px; }
+  .tools-arc-card a { font-size: 20px; padding: 24px; }
+  .tools-carousel-controls { margin-top: 0; }
+  .tools-carousel-controls button { width: 42px; height: 42px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tools-arc-card, .tools-carousel-controls button, .tools-card-arrow { transition: none; }
+}

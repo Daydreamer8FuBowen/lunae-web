@@ -12,6 +12,7 @@ dist/
 # Test and tooling output
 coverage/
 *.log
+output/imagegen/
 
 # Internal planning documents (kept locally, not committed)
 docs/superpowers/

@@ -2,7 +2,8 @@ import { lazy, Suspense, useEffect, useState } from 'react'
 import { BrowserRouter, Link, Navigate, NavLink, Route, Routes, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { ArrowLeft, ArrowUpRight, ExternalLink, Menu } from 'lucide-react'
 import HomePage from './pages/HomePage'
-import { JsonTool, ToolboxHome } from './features/json-tool/JsonTool'
+import ToolsPage from './pages/ToolsPage'
+import { JsonTool } from './features/json-tool/JsonTool'
 import { getProject, projectEntries, routePaths } from './app/routes'
 import auraPreview from './demos/aura/assets/wellness-stats-background.png'
 import './styles/globals.css'
@@ -11,6 +12,7 @@ const AuraDemo = lazy(() => import('./demos/aura/AuraDemo'))
 const PrmptDemo = lazy(() => import('./demos/prmpt/PrmptDemo'))
 const MotionLabDemo = lazy(() => import('./demos/motion-lab/MotionLabDemo'))
 const Demo3Demo = lazy(() => import('./demos/demo3/Demo3Demo'))
+const DigitalArchiveDemo = lazy(() => import('./demos/digital-archive/DigitalArchiveDemo'))
 
 function SiteHeader({ compact = false }: { compact?: boolean }) {
   const location = useLocation()
@@ -39,11 +41,6 @@ function PageIntro({ eyebrow, title, description }: { eyebrow: string, title: st
     <h1>{title}</h1>
     <p>{description}</p>
   </section>
-}
-
-function ToolsPage() {
-  const navigate = useNavigate()
-  return <div className="platform-page light-page"><SiteHeader compact /><main><PageIntro eyebrow="TOOLS / 01" title="把重复工作，交给工具。" description="集中管理店铺运营中常用的小工具，快速打开、立即使用。" /><ToolboxHome onOpen={() => navigate(routePaths.json)} /></main></div>
 }
 
 function JsonToolPage() {
@@ -75,9 +72,9 @@ function ShowcaseDetailPage() {
   </main></div>
 }
 
-function DemoFrame({ children, title }: { children: React.ReactNode, title: string }) {
+function DemoFrame({ children, title, backTo = routePaths.showcase, backLabel = '返回效果展示' }: { children: React.ReactNode, title: string, backTo?: string, backLabel?: string }) {
   useEffect(() => { document.title = `${title} — Lunae`; return () => { document.title = 'Lunae — Personal Index' } }, [title])
-  return <div className="demo-route"><Link className="demo-back" to={routePaths.showcase}><ArrowLeft size={15} /> 返回效果展示</Link>{children}</div>
+  return <div className="demo-route"><Link className="demo-back" to={backTo}><ArrowLeft size={15} /> {backLabel}</Link>{children}</div>
 }
 
 function RouteFallback() {
@@ -96,6 +93,7 @@ function AppRoutes() {
     <Route path={routePaths.prmptDemo} element={<DemoFrame title="prmpt Archive"><Suspense fallback={<RouteFallback />}><PrmptDemo /></Suspense></DemoFrame>} />
     <Route path={routePaths.motionLabDemo} element={<DemoFrame title="Motion Lab"><Suspense fallback={<RouteFallback />}><MotionLabDemo /></Suspense></DemoFrame>} />
     <Route path={routePaths.demo3} element={<DemoFrame title="Jack 3D Creator"><Suspense fallback={<RouteFallback />}><Demo3Demo /></Suspense></DemoFrame>} />
+    <Route path={routePaths.digitalArchiveDemo} element={<DemoFrame title="飞鸽" backTo={routePaths.tools} backLabel="返回工具箱"><Suspense fallback={<RouteFallback />}><DigitalArchiveDemo /></Suspense></DemoFrame>} />
     <Route path="*" element={<Navigate to={routePaths.home} replace />} />
   </Routes>
 }
