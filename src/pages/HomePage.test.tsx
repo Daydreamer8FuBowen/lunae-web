@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { act, cleanup, fireEvent, render, screen } from '@testing-library/react'
+import { act, cleanup, fireEvent, render, screen, within } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import HomePage from './HomePage'
@@ -16,7 +16,12 @@ function mount() {
 
 beforeEach(() => {
   vi.useFakeTimers()
-  vi.stubGlobal('matchMedia', vi.fn(() => ({ matches: false, addEventListener: vi.fn(), removeEventListener: vi.fn() })))
+  vi.stubGlobal('matchMedia', vi.fn(() => ({ matches: false, addEventListener: vi.fn(), removeEventListener: vi.fn(), addListener: vi.fn(), removeListener: vi.fn() })))
+  vi.stubGlobal('IntersectionObserver', class {
+    observe() {}
+    unobserve() {}
+    disconnect() {}
+  })
 })
 afterEach(() => { cleanup(); vi.useRealTimers(); vi.unstubAllGlobals() })
 
@@ -47,7 +52,7 @@ describe('home to tools transition', () => {
     vi.mocked(window.matchMedia).mockReturnValue({ matches: true } as MediaQueryList)
     const { container } = mount()
     fireEvent.click(screen.getByRole('link', { name: 'Get started' }))
-    expect(screen.getAllByRole('link')).toHaveLength(6)
+    expect(within(screen.getByRole('list', { name: '工具与作品' })).getAllByRole('link')).toHaveLength(6)
     expect(container.querySelector('.is-entering')).toBeNull()
   })
 })
