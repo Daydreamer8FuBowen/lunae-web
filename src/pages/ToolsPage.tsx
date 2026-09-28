@@ -13,12 +13,12 @@ import doveArt from './assets/tools/dove.webp'
 
 const ease = [0.22, 1, 0.36, 1] as const
 const entries = [
-  { title: 'Shopify 工具', category: '数据整理 / JSON Formatter', path: routePaths.json, art: commerceArt, description: '让繁杂的数据，回到清晰有序。' },
-  { title: '疗愈生活', category: 'AURA / Wellness', path: routePaths.auraDemo, art: wellnessArt, description: '放慢一点，探索柔和的感官体验。' },
-  { title: '灵感档案', category: 'prmpt / Visual Archive', path: routePaths.prmptDemo, art: archiveArt, description: '收藏灵感，也收藏新的可能。' },
-  { title: '动效实验', category: 'Motion / Scroll Experiments', path: routePaths.motionLabDemo, art: motionArt, description: '在滚动与交互之间，让想法动起来。' },
-  { title: '3D 创作', category: '3D / Creative Playground', path: routePaths.demo3, art: geometryArt, description: '换一个维度，看见不一样的世界。' },
-  { title: '飞鸽', category: 'Flying Dove / Digital Archive', path: routePaths.digitalArchiveDemo, art: doveArt, description: '让思绪轻盈起飞，漫游数字空间。' },
+  { title: 'Shopify 工具', path: routePaths.json, art: commerceArt, description: '让繁杂的数据，回到清晰有序。' },
+  { title: '疗愈生活', path: routePaths.auraDemo, art: wellnessArt, description: '放慢一点，探索柔和的感官体验。' },
+  { title: '灵感档案', path: routePaths.prmptDemo, art: archiveArt, description: '收藏灵感，也收藏新的可能。' },
+  { title: '动效实验', path: routePaths.motionLabDemo, art: motionArt, description: '在滚动与交互之间，让想法动起来。' },
+  { title: '3D 创作', path: routePaths.demo3, art: geometryArt, description: '换一个维度，看见不一样的世界。' },
+  { title: '飞鸽', path: routePaths.digitalArchiveDemo, art: doveArt, description: '让思绪轻盈起飞，漫游数字空间。' },
 ]
 type Square = readonly [number, number, number]
 const floatingSquares: Square[] = [[6, 20, 12], [12, 32, 8], [8, 44, 6], [88, 18, 10], [92, 30, 14], [85, 42, 7], [90, 52, 5], [14, 56, 5]]
@@ -96,7 +96,6 @@ function ToolCard({ entry, index, reduced }: { entry: typeof entries[number]; in
       </motion.span>
       <span className="tools-info-plate">
         <span className="tools-project-title">{entry.title}</span>
-        <span className="tools-project-meta"><span>{entry.category}</span><span>{String(index + 1).padStart(2, '0')}</span></span>
       </span>
     </Link>
   </motion.li>
@@ -121,7 +120,6 @@ export default function ToolsPage() {
     <section ref={sectionRef} className="tools-projects" aria-labelledby="tools-heading">
       <header className="tools-projects-header">
         <Link to={routePaths.home} className="tools-home-link">LUNAE<span>®</span><span className="sr-only"> 返回首页</span></Link>
-        <span className="tools-header-index" aria-hidden="true">PERSONAL COLLECTION / 06</span>
         <div className="tools-floating-layer" aria-hidden="true">
           {floatingSquares.map((square, index) => <FloatingSquare key={index} square={square} index={index} progress={scrollYProgress} reduced={reduced} />)}
         </div>
@@ -129,23 +127,16 @@ export default function ToolsPage() {
           animate={inView || reduced ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }} transition={{ duration: reduced ? 0 : .7, ease }}>
           <span className="tools-projects-badge">Tools & Experiments</span>
           <h1 id="tools-heading">日常工具，<span>也有奇思妙想。</span><br /><span>Things I make & explore.</span></h1>
-          <p>一些实用工具，一些灵感实验。持续收集，慢慢生长。</p>
         </motion.div>
       </header>
       <div className="tools-projects-content">
-        <div className="tools-grid-caption"><span>精选工具与作品</span><span>SELECTED / 01—06</span></div>
         <ul className="tools-projects-grid" aria-label="工具与作品">
           {entries.map((entry, index) => <ToolCard key={entry.path} entry={entry} index={index} reduced={reduced} />)}
         </ul>
       </div>
       <footer className="tools-projects-footer">
-        <div className="tools-footer-note">
-          <span className="tools-footer-plus" aria-hidden="true"><Plus size={15} /></span>
-          <p>把重复的事情变简单，把好奇的想法变成现实。这里是我的个人工具箱，也是留给下一次灵感的空白页。</p>
-          <Link className="tools-footer-cta" to={routePaths.showcase}><span>继续探索作品</span><span className="tools-cta-arrow" aria-hidden="true"><ArrowUpRight size={16} /></span></Link>
-        </div>
         <div className="tools-marquee-area">
-          <div className="tools-marquee-label"><span>ALWAYS EXPLORING</span><button type="button" aria-pressed={marqueePaused} onClick={() => setMarqueePaused((paused) => !paused)} disabled={reduced}>{marqueePaused || reduced ? '继续滚动' : '暂停滚动'}</button></div>
+          <div className="tools-marquee-label"><button type="button" aria-pressed={marqueePaused} onClick={() => setMarqueePaused((paused) => !paused)} disabled={reduced}>{marqueePaused || reduced ? '继续滚动' : '暂停滚动'}</button></div>
           <div className="tools-marquee" data-paused={marqueePaused || reduced}>
             <div className="tools-marquee-track">
               {[0, 1].map((copy) => <div className="tools-marquee-group" key={copy} aria-hidden={copy === 1 || undefined}>

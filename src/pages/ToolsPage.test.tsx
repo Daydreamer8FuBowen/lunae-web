@@ -30,7 +30,9 @@ it('makes all six original destinations accessible directly in the project grid'
   ])
   expect(links.every((link) => link.tabIndex === 0)).toBe(true)
   expect(screen.getByRole('link', { name: /返回首页/ }).getAttribute('href')).toBe('/')
-  expect(screen.getByRole('link', { name: '继续探索作品' }).getAttribute('href')).toBe('/showcase')
+  for (const label of ['PERSONAL COLLECTION / 06', '一些实用工具，一些灵感实验。持续收集，慢慢生长。', '精选工具与作品', 'SELECTED / 01—06', '继续探索作品']) {
+    expect(screen.queryByText(label)).toBeNull()
+  }
 })
 
 it('allows the continuous marquee to be paused and resumed', () => {
