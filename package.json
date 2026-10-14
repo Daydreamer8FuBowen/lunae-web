@@ -17,6 +17,8 @@
     "hls.js": "^1.7.3",
     "lucide-react": "^1.41.0",
     "motion": "^13.2.0",
+    "parse5": "^8.0.1",
+    "prettier": "^3.9.10",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
     "react-router-dom": "^7.18.3",

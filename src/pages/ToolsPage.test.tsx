@@ -20,15 +20,16 @@ beforeEach(() => {
 })
 afterEach(() => { cleanup(); vi.unstubAllGlobals() })
 
-it('makes all six original destinations accessible directly in the project grid', () => {
+it('groups demos in the second slot and keeps four image slots linked to home', () => {
   render(<MemoryRouter><ToolsPage /></MemoryRouter>)
   const grid = screen.getByRole('list', { name: '工具与作品' })
   const links = within(grid).getAllByRole('link')
   expect(links.map((link) => link.getAttribute('href'))).toEqual([
-    '/tools/json-formatter', '/demos/aura', '/demos/prmpt',
-    '/demos/motion-lab', '/demos/demo3', '/demos/digital-archive',
+    '/tools/formatter', '/tools/demos', '/', '/', '/', '/',
   ])
   expect(links.every((link) => link.tabIndex === 0)).toBe(true)
+  expect(links[1].getAttribute('aria-label')).toBe('效果展示')
+  expect(links.every((link) => link.querySelector('img')?.getAttribute('src'))).toBe(true)
   expect(screen.getByRole('link', { name: /返回首页/ }).getAttribute('href')).toBe('/')
   for (const label of ['PERSONAL COLLECTION / 06', '一些实用工具，一些灵感实验。持续收集，慢慢生长。', '精选工具与作品', 'SELECTED / 01—06', '继续探索作品']) {
     expect(screen.queryByText(label)).toBeNull()
@@ -47,7 +48,7 @@ it('allows the continuous marquee to be paused and resumed', () => {
 it('shows the card reveal on keyboard focus and keeps it until focus leaves', async () => {
   motionPreference.reduced = true
   render(<MemoryRouter><ToolsPage /></MemoryRouter>)
-  const card = screen.getByRole('link', { name: 'Shopify 工具' })
+  const card = screen.getByRole('link', { name: '格式化' })
   const reveal = card.querySelector<HTMLElement>('.tools-project-reveal')!
   fireEvent.focus(card)
   await waitFor(() => expect(reveal.style.opacity).toBe('1'))

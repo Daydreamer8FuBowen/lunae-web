@@ -1,12 +1,19 @@
 import { useState, useCallback, useRef } from 'react'
 import './JsonTool.css'
-import { formatJson, parseExcludedFields } from './format'
+import { formatCode, parseExcludedFields } from './format'
 
 const PLACEHOLDER = `{
   "common_settings_kmaH9J": "<div><span>示例设置</span></div>",
   "new_common_tabbar_RTmp4j": "<nav><a href='#'>首页</a><a href='#'>关于</a></nav>",
   "content": "<section><h2>示例文章</h2><p>这是一段文字<br>换行了</p></section>"
 }`
+
+const modes = [
+  { id: 'json', label: 'JSON', sample: PLACEHOLDER.trim() },
+  { id: 'html', label: 'HTML', sample: '<section><h2>示例文章</h2><p>这是一段文字<br>换行了</p></section>' },
+  { id: 'shopify-html', label: 'Shopify HTML', sample: '<section><h2>示例文章</h2><p>这是一段文字<br>换行了</p></section>' },
+  { id: 'js', label: 'JS', sample: 'const products=[{name:"示例商品",price:99}];function total(items){return items.reduce((sum,item)=>sum+item.price,0)}console.log(total(products));' },
+]
 
 export function JsonTool({ onBack }) {
   const [input, setInput] = useState('')
@@ -16,31 +23,52 @@ export function JsonTool({ onBack }) {
   const [charCount, setCharCount] = useState(0)
   const [excludedFieldInput, setExcludedFieldInput] = useState('')
   const [formatMode, setFormatMode] = useState('json')
-  const [htmlStyle, setHtmlStyle] = useState('flat')
+  const [formatting, setFormatting] = useState(false)
+  const requestId = useRef(0)
   const copyTimer = useRef(null)
+  const currentMode = modes.find((mode) => mode.id === formatMode)
 
-  const handleFormat = useCallback(() => {
+  const handleFormat = useCallback(async () => {
+    const request = ++requestId.current
     if (!input.trim()) {
-      setError('请先输入 JSON 内容')
+      setError(`请先输入 ${currentMode.label} 内容`)
       setOutput('')
       return
     }
+    setFormatting(true)
     try {
-      const formatted = formatJson(input, excludedFieldInput, formatMode === 'html' ? htmlStyle : 'flat')
+      const formatted = await formatCode(input, formatMode, excludedFieldInput)
+      if (request !== requestId.current) return
       setOutput(formatted)
       setError('')
     } catch (e) {
-      setError('JSON 解析失败：' + e.message)
+      if (request !== requestId.current) return
+      setError(`${currentMode.label} 格式化失败：` + e.message)
       setOutput('')
+    } finally {
+      if (request === requestId.current) setFormatting(false)
     }
-  }, [excludedFieldInput, formatMode, htmlStyle, input])
+  }, [excludedFieldInput, formatMode, currentMode.label, input])
+
+  const resetResult = useCallback(() => {
+    requestId.current += 1
+    setFormatting(false)
+    setOutput('')
+    setError('')
+    setCopied(false)
+    clearTimeout(copyTimer.current)
+  }, [])
+
+  const handleModeChange = (mode) => {
+    setFormatMode(mode)
+    resetResult()
+  }
 
   const handleClear = useCallback(() => {
     setInput('')
-    setOutput('')
-    setError('')
+    resetResult()
     setCharCount(0)
-  }, [])
+  }, [resetResult])
 
   const handleCopy = useCallback(() => {
     navigator.clipboard.writeText(output).then(() => {
@@ -51,10 +79,11 @@ export function JsonTool({ onBack }) {
   }, [output])
 
   const handleInputChange = useCallback((e) => {
+    resetResult()
     const val = e.target.value
     setInput(val)
     setCharCount(val.length)
-  }, [])
+  }, [resetResult])
 
   const handleKeyDown = useCallback((e) => {
     if (e.ctrlKey && e.key === 'Enter') {
@@ -63,11 +92,10 @@ export function JsonTool({ onBack }) {
   }, [handleFormat])
 
   const handleDemo = useCallback(() => {
-    setInput(PLACEHOLDER.trim())
-    setCharCount(PLACEHOLDER.trim().length)
-    setOutput('')
-    setError('')
-  }, [])
+    setInput(currentMode.sample)
+    setCharCount(currentMode.sample.length)
+    resetResult()
+  }, [currentMode.sample, resetResult])
 
   return (
     <div className="app">
@@ -84,30 +112,23 @@ export function JsonTool({ onBack }) {
         <div className="brand-lockup">
           <div className="header-badge">{'{ }'}</div>
           <div>
-            <h1 className="title">Shopify 工具</h1>
-            <p className="subtitle">商品数据 JSON 格式化工具</p>
+            <h1 className="title">格式化</h1>
+            <p className="subtitle">{currentMode.label}</p>
           </div>
         </div>
         <div className="header-actions">
           <button className="back-btn" onClick={onBack}>
             <span aria-hidden="true">←</span> 返回工具箱
           </button>
-          <div className="format-tags" aria-label="输出格式">
-          <button className={`mode-btn ${formatMode === 'json' ? 'is-active' : ''}`} onClick={() => setFormatMode('json')}>JSON</button>
-          <button className={`mode-btn ${formatMode === 'html' ? 'is-active' : ''}`} onClick={() => setFormatMode('html')}>HTML</button>
+          <div className="format-tags" role="group" aria-label="格式化模式">
+          {modes.map((mode) => <button key={mode.id} className={`mode-btn ${formatMode === mode.id ? 'is-active' : ''}`} aria-pressed={formatMode === mode.id} onClick={() => handleModeChange(mode.id)}>{mode.label}</button>)}
           </div>
         </div>
       </header>
 
       <main className="main">
         <div className="tool-row">
-          {formatMode === 'html' && (
-            <div className="style-switch" aria-label="HTML 格式">
-              <button className={`style-btn ${htmlStyle === 'flat' ? 'is-active' : ''}`} onClick={() => setHtmlStyle('flat')}>顶格换行</button>
-              <button className={`style-btn ${htmlStyle === 'pretty' ? 'is-active' : ''}`} onClick={() => setHtmlStyle('pretty')}>VS Code</button>
-            </div>
-          )}
-          <label className="filter-control" htmlFor="excluded-fields">
+          {formatMode === 'json' && <label className="filter-control" htmlFor="excluded-fields">
             <svg className="filter-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <path d="M4 5h16M7 12h10M10 19h4" />
             </svg>
@@ -117,22 +138,22 @@ export function JsonTool({ onBack }) {
               className="filter-input"
               type="text"
               value={excludedFieldInput}
-              onChange={(event) => setExcludedFieldInput(event.target.value)}
+              onChange={(event) => { setExcludedFieldInput(event.target.value); resetResult() }}
               placeholder="aaa;bbbb;ccc"
               spellCheck={false}
             />
             {parseExcludedFields(excludedFieldInput).size > 0 && (
               <span className="filter-count">{parseExcludedFields(excludedFieldInput).size}</span>
             )}
-          </label>
+          </label>}
 
           <div className="actions">
-            <button className="btn btn--primary" onClick={handleFormat}>
+            <button className="btn btn--primary" onClick={handleFormat} disabled={formatting}>
               <svg className="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <polyline points="4 17 10 11 4 5" />
                 <line x1="12" y1="19" x2="20" y2="19" />
               </svg>
-              格式化
+              {formatting ? '格式化中…' : '格式化'}
             </button>
             <button className="btn btn--ghost" onClick={handleClear}>
               清空
@@ -167,8 +188,9 @@ export function JsonTool({ onBack }) {
             </div>
             <textarea
               id="json-input"
+              aria-label={`${currentMode.label} 原数据`}
               className="editor"
-              placeholder='在此粘贴 JSON 文本……'
+              placeholder={`在此粘贴 ${currentMode.label} 文本……`}
               value={input}
               onChange={handleInputChange}
               onKeyDown={handleKeyDown}
@@ -200,7 +222,7 @@ export function JsonTool({ onBack }) {
                   <path d="m8 9-3 3 3 3M16 9l3 3-3 3M14 5l-4 14" />
                 </svg>
                 <strong>等待格式化</strong>
-                <span>输入 JSON 后，结果会显示在这里</span>
+                <span>输入 {currentMode.label} 后，结果会显示在这里</span>
               </div>
             )}
           </section>
@@ -215,7 +237,7 @@ export function ToolboxHome({ onOpen }) {
   const [query, setQuery] = useState('')
   const [category, setCategory] = useState('全部工具')
   const categories = ['全部工具', '店铺运营', '数据处理']
-  const tools = [{ name: 'Shopify 工具', type: 'JSON 格式化', category: '店铺运营', description: '整理商品、主题与店铺配置数据，让复制、排查和交付更高效。', status: '可用', accent: 'blue' }]
+  const tools = [{ name: '格式化', type: 'JSON / HTML / JS', category: '数据处理', description: '整理数据与代码。', status: '可用', accent: 'blue' }]
   const visibleTools = tools.filter((tool) => {
     const matchesQuery = `${tool.name}${tool.type}${tool.description}`.toLowerCase().includes(query.toLowerCase())
     return matchesQuery && (category === '全部工具' || tool.category === category)

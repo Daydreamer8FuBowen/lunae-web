@@ -6,7 +6,7 @@ import ToolsPage from './ToolsPage'
 import './home.css'
 import './home-transition.css'
 
-export default function HomePage() {
+export default function HomePage({ embedded = false }: { embedded?: boolean }) {
   const navigate = useNavigate()
   const [entering, setEntering] = useState(false)
   const started = useRef(false)
@@ -17,7 +17,8 @@ export default function HomePage() {
     const finish = () => {
       if (completed.current) return
       completed.current = true
-      navigate(routePaths.tools, { state: { focusTools: true } })
+      if (embedded) window.top?.location.assign(routePaths.tools)
+      else navigate(routePaths.tools, { state: { focusTools: true } })
     }
     const motion = window.matchMedia('(prefers-reduced-motion: reduce)')
     const onMotionChange = () => { if (motion.matches) finish() }
@@ -25,7 +26,7 @@ export default function HomePage() {
     // Match the CSS timeline without depending on browser animation events.
     const timer = window.setTimeout(finish, 1400)
     return () => { window.clearTimeout(timer); motion.removeEventListener('change', onMotionChange) }
-  }, [entering, navigate])
+  }, [entering, navigate, embedded])
 
   function enterTools(event: MouseEvent<HTMLAnchorElement>) {
     if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
@@ -40,7 +41,7 @@ export default function HomePage() {
   <div className="closer-page relative isolate overflow-hidden" lang="en" inert={entering}>
     <HeroVideo />
     <header className="closer-header absolute z-20">
-      <Link to={routePaths.home} className="closer-logo inline-flex items-center" aria-label="lunovaai home">
+      <Link to={routePaths.tools} target={embedded ? '_top' : undefined} className="closer-logo inline-flex items-center" aria-label="lunovaai home">
         <svg width="23" height="23" viewBox="0 0 23 23" fill="none" aria-hidden="true">
           <defs><radialGradient id="closer-logo-gradient" cx="0" cy="0" r="1" gradientTransform="translate(3 17) rotate(-35) scale(25)"><stop stopColor="#368CFB" /><stop offset=".45" stopColor="#5CAEFE" /><stop offset="1" stopColor="#FFEB85" /></radialGradient></defs>
           <path d="M1 1h9l2 8 3-8h7v9l-8 2 8 3v7h-9l-2-8-3 8H1v-9l8-2-8-3V1Z" fill="url(#closer-logo-gradient)" />
@@ -59,7 +60,7 @@ export default function HomePage() {
         </span>
       </h1>
       <p className="closer-description">A personal collection of everyday tools, web experiments, and visual projects — built with curiosity.</p>
-      <Link className="closer-cta inline-flex items-center justify-center" to={routePaths.tools} onClick={enterTools}>Get started</Link>
+      <Link className="closer-cta inline-flex items-center justify-center" to={routePaths.tools} target={embedded ? '_top' : undefined} onClick={enterTools}>Get started</Link>
     </main>
   </div>
   {entering && <div className="home-tools-reveal" inert aria-hidden="true"><ToolsPage /></div>}

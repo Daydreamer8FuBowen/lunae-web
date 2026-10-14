@@ -12,13 +12,17 @@ import geometryArt from './assets/tools/geometry.webp'
 import doveArt from './assets/tools/dove.webp'
 
 const ease = [0.22, 1, 0.36, 1] as const
+const demoEntries = [
+  { title: '疗愈生活', art: wellnessArt, description: '放慢一点，探索柔和的感官体验。' },
+  { title: '灵感档案', art: archiveArt, description: '收藏灵感，也收藏新的可能。' },
+  { title: '动效实验', art: motionArt, description: '在滚动与交互之间，让想法动起来。' },
+  { title: '3D 创作', art: geometryArt, description: '换一个维度，看见不一样的世界。' },
+  { title: '飞鸽', art: doveArt, description: '让思绪轻盈起飞，漫游数字空间。' },
+]
 const entries = [
-  { title: 'Shopify 工具', path: routePaths.json, art: commerceArt, description: '让繁杂的数据，回到清晰有序。' },
-  { title: '疗愈生活', path: routePaths.auraDemo, art: wellnessArt, description: '放慢一点，探索柔和的感官体验。' },
-  { title: '灵感档案', path: routePaths.prmptDemo, art: archiveArt, description: '收藏灵感，也收藏新的可能。' },
-  { title: '动效实验', path: routePaths.motionLabDemo, art: motionArt, description: '在滚动与交互之间，让想法动起来。' },
-  { title: '3D 创作', path: routePaths.demo3, art: geometryArt, description: '换一个维度，看见不一样的世界。' },
-  { title: '飞鸽', path: routePaths.digitalArchiveDemo, art: doveArt, description: '让思绪轻盈起飞，漫游数字空间。' },
+  { title: '格式化', path: routePaths.json, art: commerceArt, description: '让繁杂的数据，回到清晰有序。' },
+  { title: '效果展示', path: routePaths.showcase, art: wellnessArt, description: '五个独立页面，五种灵感体验。' },
+  ...demoEntries.slice(1).map((entry) => ({ ...entry, path: routePaths.home, description: '新的项目，即将从这里开始。' })),
 ]
 type Square = readonly [number, number, number]
 const floatingSquares: Square[] = [[6, 20, 12], [12, 32, 8], [8, 44, 6], [88, 18, 10], [92, 30, 14], [85, 42, 7], [90, 52, 5], [14, 56, 5]]
@@ -131,7 +135,7 @@ export default function ToolsPage() {
       </header>
       <div className="tools-projects-content">
         <ul className="tools-projects-grid" aria-label="工具与作品">
-          {entries.map((entry, index) => <ToolCard key={entry.path} entry={entry} index={index} reduced={reduced} />)}
+          {entries.map((entry, index) => <ToolCard key={entry.title} entry={entry} index={index} reduced={reduced} />)}
         </ul>
       </div>
       <footer className="tools-projects-footer">

@@ -87,7 +87,7 @@ textarea {
   padding-top: 2px;
 }
 
-.header-actions { display: flex; align-items: center; gap: 14px; }
+.header-actions { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
 .back-btn { border: 0; background: transparent; color: var(--ink-soft); cursor: pointer; font-size: 12px; font-weight: 700; }
 .back-btn:hover { color: var(--blue); }
 
@@ -174,6 +174,7 @@ textarea {
 
 .format-tags {
   display: flex;
+  flex-wrap: wrap;
   gap: 2px;
   padding: 3px;
   border: 1px solid var(--line);
@@ -221,6 +222,9 @@ textarea {
   justify-content: space-between;
   gap: 14px;
 }
+
+.tool-route button:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
+.tool-route .btn:disabled { opacity: .6; cursor: wait; }
 
 .style-switch {
   display: flex;
@@ -609,6 +613,8 @@ textarea {
 
   .header {
     margin-bottom: 18px;
+    flex-wrap: wrap;
+    gap: 16px;
   }
   .header-actions { gap: 8px; }
   .back-btn { font-size: 11px; }

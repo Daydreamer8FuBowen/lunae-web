@@ -22,17 +22,16 @@ npm run preview # 预览生产构建
 
 ## 路由
 
-- `/`：个人项目首页
+- `/`：跳转到工具箱
 - `/tools`：工具箱
-- `/tools/json-formatter`：JSON Formatter
-- `/showcase`：效果展示
-- `/showcase/aura`、`/demos/aura`：AURA Wellness 详情与互动页面
-- `/showcase/prmpt`、`/demos/prmpt`：prmpt Archive 详情与互动页面
-- `/demos/motion-lab`：Motion Lab 动效实验入口（Scroll Trigger、Scroll Progress、Sticky Scroll、Text Reveal、Parallax）
+- `/tools/formatter`：格式化（JSON、标准 HTML、Shopify HTML、JavaScript）
+- `/tools/demos`：效果展示，通过 Tab 切换疗愈生活、灵感档案、动效实验、3D 创作、飞鸽与瀑布，切换不改变路由。瀑布保留原首页效果，Get started 按钮跳转到工具箱。
+
+旧 `/demo`、`/demos`、`/showcase`、`/demos/*` 页面地址会跳转到 `/tools/demos`，项目旧地址会选中对应 Tab；旧格式化地址会跳转到 `/tools/formatter`。
 
 ## 目录结构
 
-`/demos/demo3` 是 Jack 3D Creator 入口，可从首页「3D 创作」进入。React 路由通过 iframe 加载 `public/demos/demo3/` 中的独立页面，保留原有样式与动画运行环境。肖像、装饰图片及 Kanit 字体仍使用原项目外链，需要网络连接。
+展示页面在独立 iframe 中运行，保留各项目的固定导航、滚动和动画环境。React demo 使用 `demo-preview.html` 作为构建入口；Motion Lab 和 Jack 3D Creator 使用 `public/demos/` 中的静态文档。部分媒体和字体仍使用原项目外链，需要网络连接。
 
 ```text
 src/

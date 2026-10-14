@@ -6,13 +6,8 @@ describe('project routes', () => {
     expect(routePaths).toMatchObject({
       home: '/',
       tools: '/tools',
-      json: '/tools/json-formatter',
-      showcase: '/showcase',
-      auraDemo: '/demos/aura',
-      prmptDemo: '/demos/prmpt',
-      motionLabDemo: '/demos/motion-lab',
-      demo3: '/demos/demo3',
-      digitalArchiveDemo: '/demos/digital-archive',
+      json: '/tools/formatter',
+      showcase: '/tools/demos',
     })
   })
 
@@ -22,6 +17,9 @@ describe('project routes', () => {
   })
 
   it('redirects the legacy Shopify route', () => {
-    expect(legacyRedirects['/shopify']).toBe('/tools/json-formatter')
+    expect(legacyRedirects['/shopify']).toBe('/tools/formatter')
+    expect(legacyRedirects['/tools/json-formatter']).toBe('/tools/formatter')
+    expect(legacyRedirects['/showcase']).toBe('/tools/demos')
+    expect(legacyRedirects['/demo']).toBe('/tools/demos')
   })
 })

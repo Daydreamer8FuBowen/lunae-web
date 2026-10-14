@@ -26,16 +26,22 @@ beforeEach(() => {
 afterEach(() => { cleanup(); vi.useRealTimers(); vi.unstubAllGlobals() })
 
 describe('home to tools transition', () => {
+  it('opens the toolbox in the outer page when embedded', () => {
+    render(<MemoryRouter><HomePage embedded /></MemoryRouter>)
+    const button = screen.getByRole('link', { name: 'Get started' })
+    expect(button.getAttribute('href')).toBe('/tools')
+    expect(button.getAttribute('target')).toBe('_top')
+  })
   it('keeps the homepage during the transition and focuses the final tools page', () => {
     const { container } = mount()
     fireEvent.click(screen.getByRole('link', { name: 'Get started' }))
     expect(container.querySelector('.is-entering')).not.toBeNull()
-    expect(screen.queryByRole('link', { name: 'Shopify 工具' })).toBeNull()
+    expect(screen.queryByRole('link', { name: '格式化' })).toBeNull()
     act(() => vi.advanceTimersByTime(1400))
-    expect(screen.getByRole('link', { name: 'Shopify 工具' }).getAttribute('href')).toBe('/tools/json-formatter')
-    expect(screen.getByRole('link', { name: '疗愈生活' }).getAttribute('href')).toBe('/demos/aura')
-    expect(screen.getByRole('link', { name: '灵感档案' }).getAttribute('href')).toBe('/demos/prmpt')
-    expect(screen.getByRole('link', { name: '飞鸽' }).getAttribute('href')).toBe('/demos/digital-archive')
+    expect(screen.getByRole('link', { name: '格式化' }).getAttribute('href')).toBe('/tools/formatter')
+    expect(screen.getByRole('link', { name: '效果展示' }).getAttribute('href')).toBe('/tools/demos')
+    expect(screen.getByRole('link', { name: '灵感档案' }).getAttribute('href')).toBe('/')
+    expect(screen.getByRole('link', { name: '飞鸽' }).getAttribute('href')).toBe('/')
     expect(document.activeElement).toBe(screen.getByRole('main', { name: '工具箱' }))
     expect(container.querySelector('.home-transition')).toBeNull()
   })
