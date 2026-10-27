@@ -22,6 +22,14 @@ function mount(path: string) {
   return render(<MemoryRouter initialEntries={[path]}><AppRoutes /><Location /></MemoryRouter>)
 }
 
+it('opens the Xuyu app directly and returns to the toolbox', () => {
+  mount('/tools/xuyu')
+  expect(screen.getByTitle('须臾集创作与收藏').getAttribute('src')).toBe('/code1/index.html')
+  fireEvent.click(screen.getByRole('link', { name: /返回工具箱/ }))
+  expect(screen.getByLabelText('当前路径').textContent).toBe('/tools')
+  expect(screen.queryByTitle('须臾集创作与收藏')).toBeNull()
+})
+
 it('switches six demo tabs without changing the route or keeping inactive frames', () => {
   const { container } = mount('/tools/demos')
   const tabs = screen.getAllByRole('tab')

@@ -1,0 +1,8 @@
+{
+  "name": "xuyu-journal",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": { "dev": "vite --host 127.0.0.1", "build": "vite build", "start": "vite preview --host 127.0.0.1", "preview": "vite preview --host 127.0.0.1", "test": "node --test", "images": "node scripts/generate-images.mjs" },
+  "devDependencies": { "vite": "^6.4.1" }
+}

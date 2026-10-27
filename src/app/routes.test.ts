@@ -8,6 +8,7 @@ describe('project routes', () => {
       tools: '/tools',
       json: '/tools/formatter',
       showcase: '/tools/demos',
+      xuyu: '/tools/xuyu',
     })
   })
 

@@ -25,9 +25,18 @@ npm run preview # 预览生产构建
 - `/`：跳转到工具箱
 - `/tools`：工具箱
 - `/tools/formatter`：格式化（JSON、标准 HTML、Shopify HTML、JavaScript）
+- `/tools/xuyu`：须臾集，工具页第三个项目；文字／照片生成水粉画、收藏与 PNG 导出。
 - `/tools/demos`：效果展示，通过 Tab 切换疗愈生活、灵感档案、动效实验、3D 创作、飞鸽与瀑布，切换不改变路由。瀑布保留原首页效果，Get started 按钮跳转到工具箱。
 
 旧 `/demo`、`/demos`、`/showcase`、`/demos/*` 页面地址会跳转到 `/tools/demos`，项目旧地址会选中对应 Tab；旧格式化地址会跳转到 `/tools/formatter`。
+
+## 须臾集与部署
+
+`code1/` 保留须臾集源码与独立测试。根目录 `npm run build` 同时构建主站和 `code1/index.html`，图片会打包为带哈希的资源；主站通过 iframe 隔离须臾集的样式。`npm test` 同时运行主站和须臾集测试。
+
+本地 `npm run dev` 自动挂载图片接口，读取 `code1/.env.local` 中的服务端配置。生产预览需分别运行 `node --env-file=code1/.env.local code1/server/start.js` 与 `npm run preview`，后者将 `/api` 代理到本机 5180 端口。密钥不会进入前端构建或 Git。
+
+线上使用 Nginx 托管 `dist/`，将 `/api/` 反向代理到独立 Node 22 服务。部署配置与持久化目录见 [deploy/README.md](deploy/README.md)。本地生成记录、原始大图、环境文件和依赖目录不随源码上传。
 
 ## 目录结构
 

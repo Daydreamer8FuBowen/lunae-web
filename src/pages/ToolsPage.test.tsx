@@ -20,15 +20,16 @@ beforeEach(() => {
 })
 afterEach(() => { cleanup(); vi.unstubAllGlobals() })
 
-it('groups demos in the second slot and keeps four image slots linked to home', () => {
+it('opens Xuyu from the third slot after the formatter and demos', () => {
   render(<MemoryRouter><ToolsPage /></MemoryRouter>)
   const grid = screen.getByRole('list', { name: '工具与作品' })
   const links = within(grid).getAllByRole('link')
   expect(links.map((link) => link.getAttribute('href'))).toEqual([
-    '/tools/formatter', '/tools/demos', '/', '/', '/', '/',
+    '/tools/formatter', '/tools/demos', '/tools/xuyu', '/', '/', '/',
   ])
   expect(links.every((link) => link.tabIndex === 0)).toBe(true)
   expect(links[1].getAttribute('aria-label')).toBe('效果展示')
+  expect(links[2].getAttribute('aria-label')).toBe('须臾集')
   expect(links.every((link) => link.querySelector('img')?.getAttribute('src'))).toBe(true)
   expect(screen.getByRole('link', { name: /返回首页/ }).getAttribute('href')).toBe('/')
   for (const label of ['PERSONAL COLLECTION / 06', '一些实用工具，一些灵感实验。持续收集，慢慢生长。', '精选工具与作品', 'SELECTED / 01—06', '继续探索作品']) {

@@ -16,6 +16,7 @@ export const routePaths = {
   tools: '/tools',
   json: '/tools/formatter',
   showcase: '/tools/demos',
+  xuyu: '/tools/xuyu',
 } as const
 
 export const legacyRedirects: Record<string, string> = {

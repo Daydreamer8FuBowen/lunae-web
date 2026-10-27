@@ -13,6 +13,7 @@ dist/
 coverage/
 *.log
 output/imagegen/
+code1/output/
 
 # Internal planning documents (kept locally, not committed)
 docs/superpowers/

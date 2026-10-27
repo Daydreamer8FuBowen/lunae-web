@@ -1,6 +1,7 @@
 import { BrowserRouter, Navigate, Route, Routes, useNavigate } from 'react-router-dom'
 import ToolsPage from './pages/ToolsPage'
 import DemoPage from './pages/DemoPage'
+import XuyuPage from './pages/XuyuPage'
 import { JsonTool } from './features/json-tool/JsonTool'
 import { legacyRedirects, projectEntries, routePaths } from './app/routes'
 import { legacyDemoTabs } from './app/demos'
@@ -17,6 +18,7 @@ export function AppRoutes() {
     <Route path={routePaths.tools} element={<ToolsPage />} />
     <Route path={routePaths.json} element={<JsonToolPage />} />
     <Route path={routePaths.showcase} element={<DemoPage />} />
+    <Route path={routePaths.xuyu} element={<XuyuPage />} />
     {Object.entries(legacyRedirects).map(([path, target]) => <Route key={path} path={path} element={<Navigate to={target} replace />} />)}
     {Object.entries(legacyDemoTabs).map(([path, demo]) => <Route key={path} path={path} element={<Navigate to={routePaths.showcase} state={{ demo }} replace />} />)}
     <Route path="/showcase/:slug" element={<Navigate to={routePaths.showcase} replace />} />

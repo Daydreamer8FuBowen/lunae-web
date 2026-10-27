@@ -1,0 +1,27 @@
+[Unit]
+Description=Lunae Xuyu image API
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/opt/lunae-xuyu
+ExecStart=/opt/node-v22/bin/node --env-file=/etc/lunae-xuyu.env server/start.js
+Environment=NODE_ENV=production
+Environment=PORT=5180
+Environment=IMAGE_PUBLIC_ORIGIN=https://tools.lunovaai.top
+Environment=IMAGE_DATA_DIR=/var/lib/lunae-xuyu/generated
+Restart=on-failure
+RestartSec=5
+StateDirectory=lunae-xuyu
+UMask=0027
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/lunae-xuyu
+
+[Install]
+WantedBy=multi-user.target

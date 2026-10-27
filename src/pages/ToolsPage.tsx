@@ -22,7 +22,8 @@ const demoEntries = [
 const entries = [
   { title: '格式化', path: routePaths.json, art: commerceArt, description: '让繁杂的数据，回到清晰有序。' },
   { title: '效果展示', path: routePaths.showcase, art: wellnessArt, description: '五个独立页面，五种灵感体验。' },
-  ...demoEntries.slice(1).map((entry) => ({ ...entry, path: routePaths.home, description: '新的项目，即将从这里开始。' })),
+  { title: '须臾集', path: routePaths.xuyu, art: archiveArt, description: '把见闻、回忆与想象，收进一幅水粉画。' },
+  ...demoEntries.slice(2).map((entry) => ({ ...entry, path: routePaths.home, description: '新的项目，即将从这里开始。' })),
 ]
 type Square = readonly [number, number, number]
 const floatingSquares: Square[] = [[6, 20, 12], [12, 32, 8], [8, 44, 6], [88, 18, 10], [92, 30, 14], [85, 42, 7], [90, 52, 5], [14, 56, 5]]

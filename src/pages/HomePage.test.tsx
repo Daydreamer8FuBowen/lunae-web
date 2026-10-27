@@ -40,7 +40,7 @@ describe('home to tools transition', () => {
     act(() => vi.advanceTimersByTime(1400))
     expect(screen.getByRole('link', { name: '格式化' }).getAttribute('href')).toBe('/tools/formatter')
     expect(screen.getByRole('link', { name: '效果展示' }).getAttribute('href')).toBe('/tools/demos')
-    expect(screen.getByRole('link', { name: '灵感档案' }).getAttribute('href')).toBe('/')
+    expect(screen.getByRole('link', { name: '须臾集' }).getAttribute('href')).toBe('/tools/xuyu')
     expect(screen.getByRole('link', { name: '飞鸽' }).getAttribute('href')).toBe('/')
     expect(document.activeElement).toBe(screen.getByRole('main', { name: '工具箱' }))
     expect(container.querySelector('.home-transition')).toBeNull()
